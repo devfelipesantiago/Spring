@@ -1,6 +1,6 @@
 package com.spring.spring.entities;
 
-import org.yaml.snakeyaml.constructor.Construct;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,6 +21,7 @@ public class User implements Serializable {
   private String password;
 
   @OneToMany(mappedBy = "client")
+  @JsonIgnore
   private List<Order> orders = new ArrayList<>();
 
   public User() {
