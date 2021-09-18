@@ -1,4 +1,4 @@
-package com.spring.spring.resources;
+package com.spring.spring.Controller;
 
 import com.spring.spring.entities.User;
 import org.springframework.http.ResponseEntity;
