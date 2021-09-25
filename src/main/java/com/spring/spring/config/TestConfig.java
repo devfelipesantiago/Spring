@@ -1,14 +1,8 @@
 package com.spring.spring.config;
 
-import com.spring.spring.entities.Category;
-import com.spring.spring.entities.Order;
-import com.spring.spring.entities.Product;
-import com.spring.spring.entities.User;
+import com.spring.spring.entities.*;
 import com.spring.spring.entities.enums.OrderStatus;
-import com.spring.spring.repositories.CategoryRepository;
-import com.spring.spring.repositories.OrderRepository;
-import com.spring.spring.repositories.ProductRepository;
-import com.spring.spring.repositories.UserRepository;
+import com.spring.spring.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -105,5 +102,26 @@ public class TestConfig implements CommandLineRunner {
         userRepository.saveAll(Arrays.asList(user1, user2));
         orderRepository.saveAll(Arrays.asList(order1, order2, order3));
         productRepository.saveAll(Arrays.asList(product1, product2, product3, product4, product5));
+
+        OrderItem orderItem1 = new OrderItem(order1, product1, 2, product1.getPrice());
+        OrderItem orderItem2 = new OrderItem(order1, product3, 1, product3.getPrice());
+        OrderItem orderItem3 = new OrderItem(order2, product3, 2, product3.getPrice());
+        OrderItem orderItem4 = new OrderItem(order3, product5, 2, product5.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(orderItem1, orderItem2, orderItem3, orderItem4));
+
+        product1.getCategories().add(category2);
+        product5.getCategories().add(category2);
+        product2.getCategories().add(category1);
+        product2.getCategories().add(category3);
+        product3.getCategories().add(category3);
+        product4.getCategories().add(category3);
+
+        productRepository.saveAll(Arrays.asList(product1, product2, product3, product4, product5));
+
+        Payment pay1 = new Payment(null,  Instant.parse("2019-06-20T21:53:07Z"), order1);
+        order1.setPayment(pay1);
+        orderRepository.save(order1);
+
     }
 }
